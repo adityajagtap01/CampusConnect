@@ -1,0 +1,79 @@
+datasource db {
+  provider = "postgresql"
+  url      =  env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+
+model Company {
+  id       Int      @unique @id @default(autoincrement())
+  name     String
+  student  Student[]
+  teams    CreatedTeam[] // Relation to CreatedTeam
+}
+
+model Student {
+  id         Int      @id @unique @default(autoincrement())
+  codeforce  String? 
+  codechef   String?
+  leetcode   String?
+  internship String?
+  projects   String?
+  cgpa       Int
+  year       Int
+  companyId  Int?     
+  company    Company? @relation(fields: [companyId], references: [id])
+}
+
+model CurrentStudents {
+  id           Int       @unique @default(autoincrement())
+  username     String?
+  password     String?
+  regno        String   @unique
+  branch       String
+  cgpa         Float?
+  documentId   Int?     @unique 
+  document     Documents? @relation(fields: [documentId], references: [id])
+  applications TeamApplication[] 
+}
+
+model Documents {
+  id                 Int    @id @unique @default(autoincrement())
+  twelth_result_file String?
+  cgpa_result_file   String?
+  resume_result_file String?
+  currentStudent     CurrentStudents? @relation
+}
+
+model Admin {
+  id         Int          @id @unique @default(autoincrement())
+  username String @unique
+  password String 
+  createteam CreatedTeam[]
+}
+
+model CreatedTeam {
+  id           Int              @id @unique @default(autoincrement())
+  name         String
+  description  String
+  packag      String
+  requirements String?
+  onsite      Boolean
+  adminId      Int
+  admin        Admin            @relation(fields: [adminId], references: [id])
+  companyId    Int?
+  company      Company?         @relation(fields: [companyId], references: [id])
+  applications TeamApplication[]
+}
+
+model TeamApplication {
+  id              Int              @id @unique @default(autoincrement())
+  currentStudentId Int
+  createdTeamId   Int
+  currentStudent  CurrentStudents @relation(fields: [currentStudentId], references: [id])
+  createdTeam     CreatedTeam     @relation(fields: [createdTeamId], references: [id])
+}
