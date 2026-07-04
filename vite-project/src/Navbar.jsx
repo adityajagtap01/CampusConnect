@@ -3,9 +3,8 @@ import { useUserStore } from './services/atom';
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const {logout}=useUserStore();
-  const handleLogout = async() => {
-    // Clear user session (example)
+  const { logout, isadmin } = useUserStore();
+  const handleLogout = async () => {
     await logout()
     localStorage.removeItem('token');
     navigate('/login');
@@ -28,12 +27,19 @@ const Navbar = () => {
           <Link to="/" className="hover:underline text-lg font-medium transition duration-300 hover:text-gray-400">
             Home
           </Link>
-          <Link to="/user/upload" className="hover:underline text-lg font-medium transition duration-300 hover:text-gray-400">
-            Update Details
-          </Link>
+          {!isadmin && (
+            <Link to="/user/upload" className="hover:underline text-lg font-medium transition duration-300 hover:text-gray-400">
+              Update Details
+            </Link>
+          )}
           <Link to="/tnp" className="hover:underline text-lg font-medium transition duration-300 hover:text-gray-400">
             TNP
           </Link>
+          {isadmin && (
+            <Link to="/admin_tnp" className="hover:underline text-lg font-medium transition duration-300 hover:text-gray-400">
+              Applicants
+            </Link>
+          )}
           <CustomButton onClick={handleLogout}>Logout</CustomButton>
         </div>
       </div>
