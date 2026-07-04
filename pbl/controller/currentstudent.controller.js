@@ -99,7 +99,7 @@ export const signup = async (req, res) => {
 
         res.cookie('auth_token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: true,
             sameSite: 'None',
             maxAge: 24 * 60 * 60 * 1000, // 1 day
         });
@@ -132,7 +132,7 @@ export const admin_login = async (req, res) => {
 
         res.cookie('auth_token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: true,
             sameSite: 'None',
             maxAge: 24 * 60 * 60 * 1000,
         });
@@ -148,7 +148,7 @@ export const logout = async (req, res) => {
     try {
         res.clearCookie('auth_token', {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: true,
             sameSite: 'None',
         });
 
@@ -207,7 +207,7 @@ export const admin_signup = async (req, res) => {
 
         res.cookie('auth_token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: true,
             sameSite: 'None',
             maxAge: 24 * 60 * 60 * 1000,
         });
@@ -240,7 +240,7 @@ export const login = async (req, res) => {
 
         res.cookie('auth_token', token, {
             httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
+            secure: true,
             sameSite: 'None',
             maxAge: 24 * 60 * 60 * 1000,
         });
